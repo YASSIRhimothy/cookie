@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cookie Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fceabb;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #5a3e1b;
+        }
+
+        #cookie {
+            cursor: pointer;
+            margin: 20px auto;
+            transition: transform 0.1s;
+            user-select: none;
+            display: block;
+        }
+
+        #score {
+            font-size: 24px;
+            margin-top: 10px;
+            color: #4b2900;
+        }
+
+        .upgrade {
+            background-color: #d2691e;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px auto;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: fit-content;
+        }
+
+        .upgrade:hover:not(:disabled) {
+            background-color: #b25613;
+        }
+
+        .upgrade:disabled {
+            background-color: #a58b7d;
+            cursor: not-allowed;
+        }
+
+        #winMessage {
+            font-size: 32px;
+            color: green;
+            margin-top: 30px;
+            display: none;
+        }
+
+        #restartBtn {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 25px;
+            font-size: 18px;
+            background-color: #b22222;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #restartBtn:hover {
+            background-color: #8b0000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cookie Clicker 🍪</h1> <!-- Emoji-style cookie --> <img id="cookie"
+        src="https://twemoji.maxcdn.com/v/latest/72x72/1f36a.png" alt="Cookie" width="150" height="150"
+        onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'"
+        onmouseleave="this.style.transform='scale(1)'" />
+    <div id="score">Cookies: 0</div>
+    <div id="upgrades"> <button class="upgrade" id="autoClickerBtn">Buy Auto Clicker (50 cookies)</button> <button
+            class="upgrade" id="megaClickerBtn">Buy Mega Clicker (250 cookies)</button> <button class="upgrade"
+            id="farmBtn">Buy Cookie Farm (1000 cookies)</button> <button class="upgrade" id="factoryBtn">Buy Cookie
+            Factory (5000 cookies)</button> <button class="upgrade" id="mineBtn">Buy Cookie Mine (20000
+            cookies)</button> <button class="upgrade" id="portalBtn">Buy Cookie Portal (100000 cookies)</button> </div>
+    <div id="winMessage">🎉 You Win! 🎉</div> <button id="restartBtn">Restart Game</button> <!-- Click Sound --> <audio
+        id="clickSound" src="click.mp3" preload="auto"></audio>
+    <script> let cookies = Number(localStorage.getItem('cookies')) || 0; let autoClickers = Number(localStorage.getItem('autoClickers')) || 0; let megaClickers = Number(localStorage.getItem('megaClickers')) || 0; let farms = Number(localStorage.getItem('farms')) || 0; let factories = Number(localStorage.getItem('factories')) || 0; let mines = Number(localStorage.getItem('mines')) || 0; let portals = Number(localStorage.getItem('portals')) || 0; const cookieImg = document.getElementById("cookie"); const clickSound = document.getElementById("clickSound"); const scoreDisplay = document.getElementById("score"); const autoClickerBtn = document.getElementById("autoClickerBtn"); const megaClickerBtn = document.getElementById("megaClickerBtn"); const farmBtn = document.getElementById("farmBtn"); const factoryBtn = document.getElementById("factoryBtn"); const mineBtn = document.getElementById("mineBtn"); const portalBtn = document.getElementById("portalBtn"); const winMessage = document.getElementById("winMessage"); const restartBtn = document.getElementById("restartBtn"); const upgradesDiv = document.getElementById("upgrades"); function updateScore() { scoreDisplay.innerText = "Cookies: " + Math.floor(cookies); autoClickerBtn.disabled = cookies < 50; megaClickerBtn.disabled = cookies < 250; farmBtn.disabled = cookies < 1000; factoryBtn.disabled = cookies < 5000; mineBtn.disabled = cookies < 20000; portalBtn.disabled = cookies < 100000; localStorage.setItem('cookies', cookies); localStorage.setItem('autoClickers', autoClickers); localStorage.setItem('megaClickers', megaClickers); localStorage.setItem('farms', farms); localStorage.setItem('factories', factories); localStorage.setItem('mines', mines); localStorage.setItem('portals', portals); if (cookies >= 1000000) winGame(); } function winGame() { cookieImg.style.display = "none"; upgradesDiv.style.display = "none"; winMessage.style.display = "block"; restartBtn.style.display = "inline-block"; } restartBtn.addEventListener("click", () => { cookies = 0; autoClickers = 0; megaClickers = 0; farms = 0; factories = 0; mines = 0; portals = 0; localStorage.clear(); cookieImg.style.display = "block"; upgradesDiv.style.display = "block"; winMessage.style.display = "none"; restartBtn.style.display = "none"; updateScore(); }); cookieImg.addEventListener("click", () => { cookies++; clickSound.play(); updateScore(); }); autoClickerBtn.addEventListener("click", () => { if (cookies >= 50) { cookies -= 50; autoClickers++; updateScore(); } }); megaClickerBtn.addEventListener("click", () => { if (cookies >= 250) { cookies -= 250; megaClickers++; updateScore(); } }); farmBtn.addEventListener("click", () => { if (cookies >= 1000) { cookies -= 1000; farms++; updateScore(); } }); factoryBtn.addEventListener("click", () => { if (cookies >= 5000) { cookies -= 5000; factories++; updateScore(); } }); mineBtn.addEventListener("click", () => { if (cookies >= 20000) { cookies -= 20000; mines++; updateScore(); } }); portalBtn.addEventListener("click", () => { if (cookies >= 100000) { cookies -= 100000; portals++; updateScore(); } }); setInterval(() => { cookies += autoClickers * 1; cookies += megaClickers * 5; cookies += farms * 15; cookies += factories * 50; cookies += mines * 150; cookies += portals * 500; updateScore(); }, 1000); updateScore(); </script>
+    @copyright year="2024" author="Juma and Yassir"
+</body>
+
+</html>
